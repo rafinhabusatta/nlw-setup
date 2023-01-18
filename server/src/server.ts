@@ -1,32 +1,12 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
-import { PrismaClient } from '@prisma/client';
+import { appRoutes } from './routes';
 
 const app = Fastify();
-const prisma = new PrismaClient();
 
 app.register(cors)
+app.register(appRoutes)
 
-/*
- * Método HTTP: Get, Post, Put, Patch, Delete
-  * Get: Buscar informações do back-end
-  * Post: Criar uma informação no back-end
-  * Put: Alterar uma informação no back-end
-  * Patch: Alterar uma informação específica
-  * Delete: Deletar uma informação no back-end
-*/
-
-app.get('/', async () => {
-  const habits = await prisma.habit.findMany({
-    where: {
-      title: {
-        startsWith: 'Beber'
-      }
-    }
-  });
-
-  return habits;
-})
 
 app.listen({
   port: 3333,
