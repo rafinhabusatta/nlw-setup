@@ -25,6 +25,7 @@ export function New() {
     try {
       if(!title.trim() || weekDays.length === 0) 
         return Alert.alert('Novo Hábito', 'Por favor, informe o título do hábito e escolha a periodicidade')
+        
         await api.post('/habits', { title, weekDays })
         setTitle('')
         setWeekDays([])
