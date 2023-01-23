@@ -57,24 +57,26 @@ export async function appRoutes(app: FastifyInstance) {
             week_day: weekDay
           }
         }
-      }
+      },
     })
 
-    const day = await prisma.day.findUnique({
+    const day = await prisma.day.findFirst({
       where: {
-        date: parsedDate.toDate()
+        date: parsedDate.toDate(),
       },
       include: {
-        dayHasHabits: true
+        dayHabits: true
       }
     })
 
-    const completedHabits = day?.dayHasHabits.map(dayHabit => {return dayHabit.habit_id})
+    const completedHabits = day?.dayHabits.map(dayHabit => {
+      return dayHabit.habit_id
+    }) ?? []
+
     return {
       possibleHabits,
       completedHabits
     }
-
   })
 
   // completar / não-comletar um hábito
